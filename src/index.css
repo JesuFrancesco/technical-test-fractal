@@ -1,11 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-platinum: #e7ecefff;
+  --color-dusk-blue: #274c77ff;
+  --color-steel-blue: #6096baff;
+  --color-icy-blue: #a3cef1ff;
+  --color-grey-olive: #8b8c89ff;
+
+  --color-ink-black: #0d1b2aff;
+  --color-prussian-blue: #1b263bff;
+  --color-dusk-blue: #415a77ff;
+  --color-dusty-denim: #778da9ff;
+  --color-alabaster-grey: #e0e1ddff;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: light dark;
+
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +27,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    @apply from-alabaster-grey to-platinum bg-linear-to-br text-ink-black;
   }
-  a:hover {
-    color: #747bff;
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      @apply from-ink-black to-prussian-blue bg-linear-to-br text-alabaster-grey;
+    }
   }
-  button {
-    background-color: #f9f9f9;
+
+  main {
+    @apply h-screen;
   }
 }
