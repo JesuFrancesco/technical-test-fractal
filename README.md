@@ -1,4 +1,4 @@
-# technicalt-test-fractal
+# technical-test-fractal
 
 Reto técnico hecho con React y Python
 
