@@ -6,11 +6,11 @@ from pydantic import Field
 
 from utils.camelcase import CamelModel
 
-from schema.order_product import OrderProductDTO
+from schema.order_product import NestedOrderProductDTO, OrderProductDTO
 
 
 class AddOrderDTO(CamelModel):
-    products: list[OrderProductDTO] = None
+    products: list[NestedOrderProductDTO] = None
 
 
 class OrderResponseDTO(CamelModel):
@@ -30,7 +30,12 @@ class OrderSummaryResponseDTO(CamelModel):
 
 
 class UpdateOrderDTO(CamelModel):
-    status: Optional[str] = Field(None)
+    products: list[NestedOrderProductDTO] = None
 
 
-__all__ = ["AddOrderDTO", "UpdateOrderDTO", "OrderResponseDTO"]
+__all__ = [
+    "AddOrderDTO",
+    "UpdateOrderDTO",
+    "OrderResponseDTO",
+    "OrderSummaryResponseDTO",
+]

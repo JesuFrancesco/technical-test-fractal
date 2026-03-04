@@ -3,9 +3,13 @@ import { deleteOrderById } from "../../../services/order.service";
 
 type DeleteOrderButtonProps = {
   id: number;
+  onDeleteSuccess?: () => void;
 };
 
-export default function DeleteOrderButton({ id }: DeleteOrderButtonProps) {
+export default function DeleteOrderButton({
+  id,
+  onDeleteSuccess,
+}: DeleteOrderButtonProps) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -13,6 +17,7 @@ export default function DeleteOrderButton({ id }: DeleteOrderButtonProps) {
     try {
       setLoading(true);
       await deleteOrderById(id);
+      if (onDeleteSuccess) onDeleteSuccess();
       setShowDeleteAlert(false);
     } catch (error) {
       console.error("Error deleting order:", error);
@@ -39,7 +44,7 @@ export default function DeleteOrderButton({ id }: DeleteOrderButtonProps) {
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowDeleteAlert(false)}
-                className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 active:scale-95 transition-all duration-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+                className="button-cancel"
               >
                 Cancel
               </button>
@@ -47,7 +52,7 @@ export default function DeleteOrderButton({ id }: DeleteOrderButtonProps) {
               <button
                 onClick={() => deleteOrder(id)}
                 disabled={loading}
-                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 active:scale-95 transition-all duration-200 text-white shadow-md disabled:opacity-60"
+                className="button-destroy"
               >
                 {loading ? "Deleting..." : "Delete"}
               </button>
@@ -57,12 +62,14 @@ export default function DeleteOrderButton({ id }: DeleteOrderButtonProps) {
       )}
 
       {/* Trigger Button */}
-      <button
-        onClick={() => setShowDeleteAlert(true)}
-        className="text-red-600 hover:text-red-700 font-medium transition-colors duration-200 hover:underline"
-      >
-        Delete
-      </button>
+      <div>
+        <button
+          onClick={() => setShowDeleteAlert(true)}
+          className="text-red-600 hover:text-red-700 font-medium transition-colors duration-200 hover:underline"
+        >
+          Delete
+        </button>
+      </div>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import type React from "react";
-import { getOrderData } from "../../../services/order.service";
+import { getAllOrders } from "../../../services/order.service";
 import { useCallback, useEffect, useState } from "react";
-import type IOrder from "../../../interfaces/order";
+import type ISummarizedOrder from "../../../interfaces/ISummarizedOrder";
 import ReactTable from "../../../ui/react-table";
 import Loader from "../../../ui/icons/Loader";
 import { useNavigate } from "react-router";
@@ -11,13 +11,13 @@ type OrderTableProps = React.ComponentPropsWithoutRef<"table">;
 
 export default function OrderTable(props: OrderTableProps) {
   const router = useNavigate();
-  const [data, setData] = useState<IOrder[]>([]);
+  const [data, setData] = useState<ISummarizedOrder[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getOrderData();
+      const response = await getAllOrders();
       setData(response);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -63,13 +63,10 @@ export default function OrderTable(props: OrderTableProps) {
           >
             Edit
           </button>
-          <DeleteOrderButton id={row.original.id} />
-          {/* <button
-            onClick={() => handleOnDelete(row.original.id)}
-            className="text-red-500"
-          >
-            Delete
-          </button> */}
+          <DeleteOrderButton
+            id={row.original.id}
+            onDeleteSuccess={() => fetchOrders()}
+          />
         </div>
       ),
     },

@@ -76,13 +76,26 @@ def delete_order_by_id(db_session, order_id: int) -> None:
     db_session.commit()
 
 
-def update_order_status(db_session, order_id: int, new_status: str) -> Order:
+def update_order_products(db_session: Session, order_id: int, products: list):
     order = get_order_by_id(db_session, order_id)
 
     if not order:
         raise ValueError(f"Order with id {order_id} not found")
 
-    order.status = new_status
+    order.order_items.clear()
+
+    for item in products:
+        if item.quantity <= 0:
+            raise ValueError("Quantity must be greater than 0")
+
+        order.order_items.append(
+            OrderProduct(
+                product_id=item.product_id,
+                quantity=item.quantity,
+            )
+        )
+
     db_session.commit()
     db_session.refresh(order)
+
     return order
