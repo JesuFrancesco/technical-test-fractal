@@ -16,7 +16,8 @@
   }
 
   button {
-    @apply hover:cursor-pointer dark:bg-prussian-blue inline-block rounded-md border border-ink-black dark:border-alabaster-grey px-4 py-2 font-medium transition hover:opacity-90;
+    @apply hover:cursor-pointer inline-block rounded-md border bg-alabaster-grey hover:bg-platinum border-ink-black 
+    px-4 py-2 font-medium transition dark:bg-ink-black dark:hover:bg-dusk-blue dark:border-alabaster-grey;
   }
 
   table {
@@ -29,5 +30,44 @@
 
   td {
     @apply px-4 py-2 border-b border-gray-800 dark:border-gray-200;
+  }
+}
+
+@layer utilities {
+  .dialog {
+    @apply fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50;
+  }
+
+  .dialog-content {
+    @apply bg-white dark:bg-ink-black p-6 rounded-2xl shadow-2xl w-full max-w-md;
+  }
+
+  /* Animations */
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.2s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }

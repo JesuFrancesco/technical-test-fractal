@@ -1,27 +1,36 @@
 from datetime import datetime
+from decimal import Decimal
 from typing import Optional
 
 from pydantic import Field
 
 from utils.camelcase import CamelModel
 
-from schema.order_product import OrderProductType
+from schema.order_product import OrderProductDTO
 
 
-class AddOrderRequest(CamelModel):
-    products: list[OrderProductType] = None
+class AddOrderDTO(CamelModel):
+    products: list[OrderProductDTO] = None
 
 
-class OrderResponse(CamelModel):
+class OrderResponseDTO(CamelModel):
     id: int
     code: str
     status: str
     order_date: datetime
-    order_items: list[OrderProductType]
+    order_items: list[OrderProductDTO]
 
 
-class UpdateOrderRequest(CamelModel):
+class OrderSummaryResponseDTO(CamelModel):
+    id: int
+    code: str
+    order_date: datetime
+    products_count: int
+    final_price: Decimal
+
+
+class UpdateOrderDTO(CamelModel):
     status: Optional[str] = Field(None)
 
 
-__all__ = ["AddOrderRequest", "UpdateOrderRequest", "OrderResponse"]
+__all__ = ["AddOrderDTO", "UpdateOrderDTO", "OrderResponseDTO"]

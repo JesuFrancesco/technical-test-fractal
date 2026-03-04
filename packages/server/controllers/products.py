@@ -7,7 +7,7 @@ from services.products import (
     update_product,
     delete_product,
 )
-from schema.products import AddProductRequest, UpdateProductRequest
+from schema.products import AddProductDTO, UpdateProductDTO
 
 router = APIRouter(
     prefix="/products",
@@ -27,7 +27,7 @@ def get_all_products_endpoint(session: Session = Depends(get_session)):
 
 @router.post("/")
 def create_new_product_endpoint(
-    request: AddProductRequest, session: Session = Depends(get_session)
+    request: AddProductDTO, session: Session = Depends(get_session)
 ):
     try:
         return create_product(
@@ -44,7 +44,7 @@ def create_new_product_endpoint(
 
 @router.put("/{product_id}")
 def update_product_endpoint(
-    request: UpdateProductRequest,
+    request: UpdateProductDTO,
     product_id: str,
     session: Session = Depends(get_session),
 ):

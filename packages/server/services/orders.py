@@ -1,13 +1,13 @@
 import uuid
 
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
-from schema.orders import OrderProductType
+from schema.orders import OrderProductDTO
 from models import Order, OrderProduct
 
 
-def create_order(db_session: Session, order_products: list[OrderProductType]) -> Order:
+def create_order(db_session: Session, order_products: list[OrderProductDTO]) -> Order:
     order = Order(
         code=f"ORD-{uuid.uuid4().hex[:8]}",
         status="PENDING",
@@ -32,6 +32,34 @@ def create_order(db_session: Session, order_products: list[OrderProductType]) ->
 
 def get_all_orders(db_session) -> list[Order]:
     return db_session.query(Order).all()
+
+
+def get_all_orders_summarized(db_session):
+    orders = (
+        db_session.query(Order)
+        .options(joinedload(Order.order_items).joinedload(OrderProduct.product))
+        .all()
+    )
+
+    result = []
+
+    for order in orders:
+        products_count = sum(item.quantity for item in order.order_items)
+        final_price = sum(
+            item.quantity * item.product.price for item in order.order_items
+        )
+
+        result.append(
+            {
+                "id": order.id,
+                "code": order.code,
+                "orderDate": order.order_date,
+                "productsCount": products_count,
+                "finalPrice": final_price,
+            }
+        )
+
+    return result
 
 
 def get_order_by_id(db_session, order_id: int) -> Order | None:

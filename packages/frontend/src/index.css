@@ -12,6 +12,11 @@
   --color-dusk-blue: #415a77ff;
   --color-dusty-denim: #778da9ff;
   --color-alabaster-grey: #e0e1ddff;
+
+  --color-danger-red: #ff6b6bff;
+  --color-warning-yellow: #ffb703ff;
+  --color-success-green: #4caf50ff;
+  --color-cancel-gray: #6c757dff;
 }
 
 :root {
@@ -39,6 +44,6 @@
   }
 
   main {
-    @apply h-screen;
+    @apply h-screen w-full;
   }
 }

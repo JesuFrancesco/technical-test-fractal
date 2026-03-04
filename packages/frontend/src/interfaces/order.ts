@@ -2,8 +2,8 @@
 
 export default interface IOrder {
   readonly id: number;
-  readonly orderNumber: string;
-  readonly date: string;
+  readonly code: string;
+  readonly orderDate: string;
   readonly productsCount: number;
-  readonly finalPrice: number;
+  readonly finalPrice: string;
 }

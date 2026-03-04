@@ -8,7 +8,7 @@ o Table to show the orders created
     ▪ Columns: ID, Order #, date, # Products, Final price, Options
     ▪ The options perrow are:
     • Edit Order: Redirect to theAdd/Edit Order view (sending the ID)
-    • Delete Order: Show a confirmationmodal and delete the order
+    • Delete Order: Show a confirmation modal and delete the order
 o Button to add a new order, this will redirect to the Add/Edit Order view
 
 */
@@ -22,7 +22,7 @@ export default function OrdersPage() {
       </Helmet>
       <main>
         <h1>My Orders</h1>
-        <section className="flex flex-col gap-2">
+        <section className="flex flex-col gap-2 w-fit justify-center mx-auto">
           <OrderTable />
           <AddOrderButton />
         </section>

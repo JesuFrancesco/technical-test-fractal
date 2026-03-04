@@ -1,16 +1,16 @@
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-} from "@tanstack/react-table";
 import type React from "react";
 import { getOrderData } from "../../../services/order.service";
 import { useCallback, useEffect, useState } from "react";
 import type IOrder from "../../../interfaces/order";
+import ReactTable from "../../../ui/react-table";
+import Loader from "../../../ui/icons/Loader";
+import { useNavigate } from "react-router";
+import DeleteOrderButton from "./delete-order-button";
 
 type OrderTableProps = React.ComponentPropsWithoutRef<"table">;
 
 export default function OrderTable(props: OrderTableProps) {
+  const router = useNavigate();
   const [data, setData] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,11 +37,11 @@ export default function OrderTable(props: OrderTableProps) {
       header: "ID",
     },
     {
-      accessorKey: "orderNumber",
+      accessorKey: "code",
       header: "Order #",
     },
     {
-      accessorKey: "date",
+      accessorKey: "orderDate",
       header: "Date",
     },
     {
@@ -51,53 +51,35 @@ export default function OrderTable(props: OrderTableProps) {
     {
       accessorKey: "finalPrice",
       header: "Final Price",
-      cell: ({ row }: any) => `$${row.original.finalPrice.toFixed(2)}`,
     },
     {
       id: "options",
       header: "Options",
-      cell: () => (
+      cell: ({ row }: { row: any }) => (
         <div className="flex items-center justify-center gap-2">
-          <button className="text-blue-500">Edit</button>
-          <button className="text-red-500">Delete</button>
+          <button
+            onClick={() => router(`/add-order/${row.original.id}`)}
+            className="text-blue-500"
+          >
+            Edit
+          </button>
+          <DeleteOrderButton id={row.original.id} />
+          {/* <button
+            onClick={() => handleOnDelete(row.original.id)}
+            className="text-red-500"
+          >
+            Delete
+          </button> */}
         </div>
       ),
     },
   ];
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <table {...props}>
-      <thead>
-        {table.getHeaderGroups().map((hg) => (
-          <tr key={hg.id}>
-            {hg.headers.map((header) => (
-              <th key={header.id}>
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  return loading ? (
+    <div className="flex justify-center items-center">
+      <Loader className="h-12 animate-spin stroke-dusty-denim" />
+    </div>
+  ) : (
+    <ReactTable columns={columns} data={data} {...props} />
   );
 }

@@ -5,26 +5,21 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import declarative_base, Session
 
-
-def _get_env(key: str, default: Optional[str] = None) -> Optional[str]:
-    val = os.getenv(key, default)
-    return val
+from config import config
 
 
 def get_database_url() -> str:
-    user = _get_env("DB_USER", "root")
-    password = _get_env("DB_PASSWORD", "")
-    host = _get_env("DB_HOST", "localhost")
-    port = _get_env("DB_PORT", "3306")
-    db = _get_env("DB_NAME")
-
     # If DB name not provided fall back to a harmless sqlite memory DB so imports/tests don't fail.
-    if not db:
+    if not config.DB_NAME:
         return "sqlite:///:memory:"
 
     # Quote password only if present
-    auth = f"{user}:{password}@" if password else f"{user}@"
-    return f"mysql+pymysql://{auth}{host}:{port}/{db}"
+    auth = (
+        f"{config.DB_USER}:{config.DB_PASSWORD}@"
+        if config.DB_PASSWORD
+        else f"{config.DB_USER}@"
+    )
+    return f"mysql+pymysql://{auth}{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
 
 
 def create_engine_from_env(
