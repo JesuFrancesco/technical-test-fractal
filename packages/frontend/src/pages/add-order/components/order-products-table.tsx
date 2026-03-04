@@ -20,7 +20,7 @@ export default function OrderProductsTable({
 }: OrderTableProps) {
   //   const router = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, _] = useState(false);
 
   // ID, Order #, date, # Products, Final price, Options
   const columns = [

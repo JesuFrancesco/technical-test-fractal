@@ -2,7 +2,6 @@ import { createHashRouter, Navigate } from "react-router-dom";
 import OrdersPage from "./pages/orders/page";
 import AddOrderPage from "./pages/add-order/page";
 import ProductsPage from "./pages/products/page";
-import NotFoundPage from "./pages/not-found/page";
 
 /* 
 
