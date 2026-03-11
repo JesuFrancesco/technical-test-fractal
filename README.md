@@ -14,5 +14,3 @@ Reto técnico hecho con React y Python
 - Python
 - FastAPI
 - SQLAlchemy
-
-[Enlace de demo](http://fractal-vite-app.s3-website.us-east-2.amazonaws.com/#/)
